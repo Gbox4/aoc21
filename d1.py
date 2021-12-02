@@ -2020,23 +2020,29 @@ data = data.split("\n")
 data = [ int(x) for x in data]
 
 # Part 1
-gt = 0
+def p1(data):
+  gt = 0
 
-for e, i in enumerate(data[1:]):
-  if i > data[e]:
-    gt += 1
-  
-print(gt)
+  for e, i in enumerate(data[1:]):
+    if i > data[e]:
+      gt += 1
+    
+  print(gt)
 
 
 # Part 2
-gt = 0
-windows = []
-for e, i in enumerate(data[:-2]):
-  windows.append(sum(data[e:e+3]))
+def p2(data):
+  gt = 0
+  windows = []
+  for e, i in enumerate(data[:-2]):
+    windows.append(sum(data[e:e+3]))
 
-for e, i in enumerate(windows[1:]):
-  if i > windows[e]:
-    gt += 1
+  for e, i in enumerate(windows[1:]):
+    if i > windows[e]:
+      gt += 1
 
-print(gt)
+  print(gt)
+
+if __name__ == "__main__":
+  p1(data)
+  p2(data)
