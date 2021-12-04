@@ -1003,47 +1003,34 @@ data = """101010000100
 010100100000
 100000100100"""
 
-# data = """00100
-# 11110
-# 10110
-# 10111
-# 10101
-# 01111
-# 00111
-# 11100
-# 10000
-# 11001
-# 00010
-# 01010"""
+data = """00100
+11110
+10110
+10111
+10101
+01111
+00111
+11100
+10000
+11001
+00010
+01010"""
 
 data = data.split("\n")
-data = [ [ int(y) for y in x ] for x in data ]
+# data = [ [ int(y) for y in x ] for x in data ]
 
 # Part 1
 def p1(data):
 
-  gamma = 0
-  epsilon = 0
-
-  for x in range(len(data[0])):
-    ones = 0
-    zeros = 0
-    for y, i in enumerate(data):
-      if data[y][x] == 0:
-        zeros += 1
-      else:
-        ones += 1
-    if ones > zeros:
-      print("1")
-      gamma += 2**(len(data[0])-1-x)
+  e = 0
+  g = 0
+  for b in range(len(data[0])):
+    if [ int(x[b]) for x in data ].count(1) > len(data) / 2:
+      g += 2**(len(data[0])-1-b)
     else:
-      print("0")
-      epsilon += 2**(len(data[0])-1-x)
+      e += 2**(len(data[0])-1-b)
   
-  print(gamma*epsilon)
-
-
-
+  print(g*e)
 
 # Part 2
 def p2(data):
@@ -1076,6 +1063,6 @@ def p2(data):
 
 
 if __name__ == "__main__":
-  # p1(data)
-  p2(data)
+  p1(data)
+  # p2(data)
 
