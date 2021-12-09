@@ -1020,49 +1020,52 @@ data = data.split("\n")
 # data = [ [ int(y) for y in x ] for x in data ]
 
 # Part 1
+
+
 def p1(data):
 
-  e = 0
-  g = 0
-  for b in range(len(data[0])):
-    if [ int(x[b]) for x in data ].count(1) > len(data) / 2:
-      g += 2**(len(data[0])-1-b)
-    else:
-      e += 2**(len(data[0])-1-b)
-  
-  print(g*e)
+    e = 0
+    g = 0
+    for b in range(len(data[0])):
+        if [int(x[b]) for x in data].count(1) > len(data) / 2:
+            g += 2**(len(data[0])-1-b)
+        else:
+            e += 2**(len(data[0])-1-b)
+
+    print(g*e)
 
 # Part 2
+
+
 def p2(data):
-  o2next = []
-  co2 = []
-  o2cands = data.copy()
-
-  for b in range(len(data[0])):
-    zeros = 0
-    ones = 0
-    
-    for i in o2cands:
-      if i[b] == 0:
-        zeros += 1
-      else:
-        ones += 1
-    
-    # bigger = 0 if zeros > ones else 1 # for o2
-    bigger = 1 if zeros > ones else 0 # for co2
-
-    for i in o2cands:
-      if i[b] == bigger:
-        o2next.append(i)
-
-    if len(o2next) == 1:
-      print(int("".join([str(x) for x in o2next[0]]), 2))
-
-    o2cands = o2next.copy()
     o2next = []
+    co2 = []
+    o2cands = data.copy()
+
+    for b in range(len(data[0])):
+        zeros = 0
+        ones = 0
+
+        for i in o2cands:
+            if i[b] == 0:
+                zeros += 1
+            else:
+                ones += 1
+
+        # bigger = 0 if zeros > ones else 1 # for o2
+        bigger = 1 if zeros > ones else 0  # for co2
+
+        for i in o2cands:
+            if i[b] == bigger:
+                o2next.append(i)
+
+        if len(o2next) == 1:
+            print(int("".join([str(x) for x in o2next[0]]), 2))
+
+        o2cands = o2next.copy()
+        o2next = []
 
 
 if __name__ == "__main__":
-  p1(data)
-  # p2(data)
-
+    p1(data)
+    # p2(data)

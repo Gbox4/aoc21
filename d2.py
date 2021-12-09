@@ -1011,41 +1011,43 @@ forward 6"""
 # forward 2"""
 
 data = data.split("\n")
-data = [ (x.split(" ")[0], int(x.split(" ")[1])) for x in data ]
+data = [(x.split(" ")[0], int(x.split(" ")[1])) for x in data]
 
 # Part 1
-def p1(data):
-  f = 0
-  d = 0
 
-  for face, x in data:
-    if face == "forward":
-      f += x
-    elif face == "up":
-      d -= x
-    elif face == "down":
-      d += x
-    
-  print(f*d)
+
+def p1(data):
+    f = 0
+    d = 0
+
+    for face, x in data:
+        if face == "forward":
+            f += x
+        elif face == "up":
+            d -= x
+        elif face == "down":
+            d += x
+
+    print(f*d)
 
 
 # Part 2
 def p2(data):
-  f = 0
-  d = 0
-  aim = 0
-  for face, x in data:
-    if face == "forward":
-      f += x
-      d += aim*x
-    elif face == "up":
-      aim -= x
-    elif face == "down":
-      aim += x
-  
-  print(f*d)
+    f = 0
+    d = 0
+    aim = 0
+    for face, x in data:
+        if face == "forward":
+            f += x
+            d += aim*x
+        elif face == "up":
+            aim -= x
+        elif face == "down":
+            aim += x
+
+    print(f*d)
+
 
 if __name__ == "__main__":
-  p1(data)
-  p2(data)
-
+    p1(data)
+    p2(data)

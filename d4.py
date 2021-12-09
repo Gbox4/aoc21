@@ -625,61 +625,57 @@ data = """93,18,74,26,98,52,94,23,15,2,34,75,13,31,39,76,96,16,84,12,38,27,8,85,
 #  2  0 12  3  7"""
 
 data = data.split("\n")
-data = list(filter(lambda x: len(x)!=0, data))
+data = list(filter(lambda x: len(x) != 0, data))
 # data = [ [ int(y) for y in x ] for x in data ]
 
 # Part 1
-def p1(data):
 
+
+def p1(data):
 
     matchcoords = []
     matches = []
 
     draw = data.pop(0)
-    draw = [ int(x) for x in draw.split(",")]
+    draw = [int(x) for x in draw.split(",")]
 
-    data = [ x.replace("  "," ").split(" ") for x in data ]
+    data = [x.replace("  ", " ").split(" ") for x in data]
     data = [list(filter(lambda y: len(y) != 0, x)) for x in data]
-    data = [ [int(y) for y in x] for x in data]
+    data = [[int(y) for y in x] for x in data]
 
     boards = []
 
-    for l in range(0,len(data),5):
-      boards.append(data[l:l+5])
-      matches.append([[0,0,0,0,0],[0,0,0,0,0]])
+    for l in range(0, len(data), 5):
+        boards.append(data[l:l+5])
+        matches.append([[0, 0, 0, 0, 0], [0, 0, 0, 0, 0]])
 
     done = False
     for n, num in enumerate(draw):
-      for b, board in enumerate(boards):
-        for y, row in enumerate(board):
-          for x, i in enumerate(row):
-            if i == num:
-              matches[b][0][y] += 1
-              matches[b][1][x] += 1
-              matchcoords.append((b,x,y))
-      
-      for boardnum, m in enumerate(matches):
-        if 5 in m[0] or 5 in m[1]:
-          done = True
-          break
-      if done:
-        break
-    
+        for b, board in enumerate(boards):
+            for y, row in enumerate(board):
+                for x, i in enumerate(row):
+                    if i == num:
+                        matches[b][0][y] += 1
+                        matches[b][1][x] += 1
+                        matchcoords.append((b, x, y))
+
+        for boardnum, m in enumerate(matches):
+            if 5 in m[0] or 5 in m[1]:
+                done = True
+                break
+        if done:
+            break
+
     print(num)
     print(boardnum)
-    
+
     total = 0
     for y, row in enumerate(boards[boardnum]):
-      for x, i in enumerate(row):
-        if not (boardnum, x, y) in matchcoords:
-          total += i
-    
-    print(total*num)
-    
-    
-    
+        for x, i in enumerate(row):
+            if not (boardnum, x, y) in matchcoords:
+                total += i
 
-    
+    print(total*num)
 
 
 # Part 2
@@ -690,54 +686,53 @@ def p2(data):
     matches = []
 
     draw = data.pop(0)
-    draw = [ int(x) for x in draw.split(",")]
+    draw = [int(x) for x in draw.split(",")]
 
-    data = [ x.replace("  "," ").split(" ") for x in data ]
+    data = [x.replace("  ", " ").split(" ") for x in data]
     data = [list(filter(lambda y: len(y) != 0, x)) for x in data]
-    data = [ [int(y) for y in x] for x in data]
+    data = [[int(y) for y in x] for x in data]
 
     boards = []
 
-    for l in range(0,len(data),5):
-      boards.append(data[l:l+5])
-      matches.append([[0,0,0,0,0],[0,0,0,0,0]])
+    for l in range(0, len(data), 5):
+        boards.append(data[l:l+5])
+        matches.append([[0, 0, 0, 0, 0], [0, 0, 0, 0, 0]])
 
     done = False
     for n, num in enumerate(draw):
-      for b, board in enumerate(boards):
-        for y, row in enumerate(board):
-          for x, i in enumerate(row):
-            if i == num:
-              matches[b][0][y] += 1
-              matches[b][1][x] += 1
-              matchcoords.append((b,x,y))
-      
-      for boardnum, m in enumerate(matches):
-        if 5 in m[0] or 5 in m[1]:
-          if not boardnum in winning_boards:
-            winning_boards.append(boardnum)
-          
-          if len(winning_boards) == len(boards):
-            done = True
+        for b, board in enumerate(boards):
+            for y, row in enumerate(board):
+                for x, i in enumerate(row):
+                    if i == num:
+                        matches[b][0][y] += 1
+                        matches[b][1][x] += 1
+                        matchcoords.append((b, x, y))
+
+        for boardnum, m in enumerate(matches):
+            if 5 in m[0] or 5 in m[1]:
+                if not boardnum in winning_boards:
+                    winning_boards.append(boardnum)
+
+                if len(winning_boards) == len(boards):
+                    done = True
+                    break
+        if done:
             break
-      if done:
-        break
-    
+
     print(num)
     print(boardnum)
-    
+
     total = 0
     for y, row in enumerate(boards[boardnum]):
-      for x, i in enumerate(row):
-        if not (boardnum, x, y) in matchcoords:
-          total += i
-    
+        for x, i in enumerate(row):
+            if not (boardnum, x, y) in matchcoords:
+                total += i
+
     print(total*num)
 
 
 if __name__ == "__main__":
-  # print("\n\nPART1:")
-  # p1(data)
-  print("\n\nPART2:")
-  p2(data)
-
+    # print("\n\nPART1:")
+    # p1(data)
+    print("\n\nPART2:")
+    p2(data)

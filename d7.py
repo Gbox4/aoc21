@@ -7,29 +7,33 @@ data = "1101,1,29,67,1102,0,1,65,1008,65,35,66,1005,66,28,1,67,65,20,4,0,1001,65
 # data = """16,1,2,0,4,2,7,1,2,14"""
 
 data = data.split(",")
-data = [ int(x) for x in data ]
+data = [int(x) for x in data]
 
 # Part 1
-def p1(data):
-  least = 9999999
-  for i in data:
-    if least > sum([ abs(x - i) for x in data ]):
-      least = sum([ abs(x - i) for x in data ])
 
-  print(least)
+
+def p1(data):
+    least = 9999999
+    for i in data:
+        if least > sum([abs(x - i) for x in data]):
+            least = sum([abs(x - i) for x in data])
+
+    print(least)
 
 # Part 2
+
+
 def p2(data):
-  least = 999999999999999
-  for i in range(min(data), max(data)):
-    a = sum([(abs(i-x) * (abs(i-x)+1))/2 for x in data ])
-    least = min(least, a)
+    least = 999999999999999
+    for i in range(min(data), max(data)):
+        a = sum([(abs(i-x) * (abs(i-x)+1))/2 for x in data])
+        least = min(least, a)
 
-  print(int(least))
+    print(int(least))
 
-  
+
 if __name__ == "__main__":
-  print("\n\nPART1:")
-  p1(data)
-  print("\n\nPART2:")
-  p2(data)
+    print("\n\nPART1:")
+    p1(data)
+    print("\n\nPART2:")
+    p2(data)

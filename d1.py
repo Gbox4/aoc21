@@ -2015,34 +2015,40 @@ data = """187
 # 263"""
 
 data = data.split("\n")
-data = [ int(x) for x in data]
+data = [int(x) for x in data]
 
 # Part 1
+
+
 def p1(data):
-  # One-liner version
-  print(len(list(filter(lambda x: x > 0, [ data[i+1] - x for i, x in enumerate(data[:-1])]))))
-  # gt = 0
-  # for e, i in enumerate(data[1:]):
-  #   if i > data[e]:
-  #     gt += 1
-  # print(gt)
+    # One-liner version
+    print(len(list(filter(lambda x: x > 0, [
+          data[i+1] - x for i, x in enumerate(data[:-1])]))))
+    # gt = 0
+    # for e, i in enumerate(data[1:]):
+    #   if i > data[e]:
+    #     gt += 1
+    # print(gt)
 
 # Part 2
+
+
 def p2(data):
-  # One-liner version
-  print(len(list(filter(lambda x: x > 0, [ data[i+3] - x for i, x in enumerate(data[:-3])]))))
-  # gt = 0
-  # windows = []
-  # for e, i in enumerate(data[:-2]):
-  #   windows.append(sum(data[e:e+3]))
+    # One-liner version
+    print(len(list(filter(lambda x: x > 0, [
+          data[i+3] - x for i, x in enumerate(data[:-3])]))))
+    # gt = 0
+    # windows = []
+    # for e, i in enumerate(data[:-2]):
+    #   windows.append(sum(data[e:e+3]))
 
-  # for e, i in enumerate(windows[1:]):
-  #   if i > windows[e]:
-  #     gt += 1
+    # for e, i in enumerate(windows[1:]):
+    #   if i > windows[e]:
+    #     gt += 1
 
-  # print(gt)
+    # print(gt)
+
 
 if __name__ == "__main__":
-  p1(data)
-  p2(data)
-
+    p1(data)
+    p2(data)

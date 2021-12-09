@@ -2,6 +2,7 @@
 # 12/4/21
 # Advent of Code day 5
 
+import numpy as np
 data = """242,601 -> 242,18
 938,357 -> 938,128
 920,574 -> 750,574
@@ -514,92 +515,94 @@ data = """242,601 -> 242,18
 # 0,0 -> 8,8
 # 5,5 -> 8,2"""
 
-import numpy as np
 
 data = data.split("\n")
-data = [ x.split(" -> ") for x in data ]
-data = [[ [int(a) for a in x.split(",")] for x in y ] for y in data ]
+data = [x.split(" -> ") for x in data]
+data = [[[int(a) for a in x.split(",")] for x in y] for y in data]
 
-def lin(a,b):
-  if b > a:
-    return range(a, b+1)
-  if a > b:
-    return range(a, b-1, -1)
+
+def lin(a, b):
+    if b > a:
+        return range(a, b+1)
+    if a > b:
+        return range(a, b-1, -1)
 
 # Part 1
+
+
 def p1(data):
-  maxX = 0
-  maxY = 0
+    maxX = 0
+    maxY = 0
 
-  for l in data:
-    maxX = max(maxX, l[0][0])
-    maxX = max(maxX, l[1][0])
-    maxY = max(maxY, l[0][1])
-    maxY = max(maxY, l[1][1])
+    for l in data:
+        maxX = max(maxX, l[0][0])
+        maxX = max(maxX, l[1][0])
+        maxY = max(maxY, l[0][1])
+        maxY = max(maxY, l[1][1])
 
-  zeros = [ [ 0 for x in range(maxX+1) ] for y in range(maxY+1) ]
-  total = 0
+    zeros = [[0 for x in range(maxX+1)] for y in range(maxY+1)]
+    total = 0
 
-  for l in data:
+    for l in data:
 
-    if l[0][0] == l[1][0]:
-      for i in range(min(l[0][1], l[1][1]), max(l[0][1], l[1][1])+1):
-        zeros[l[0][0]][i] += 1
-        if zeros[l[0][0]][i] == 2:
-          total += 1
+        if l[0][0] == l[1][0]:
+            for i in range(min(l[0][1], l[1][1]), max(l[0][1], l[1][1])+1):
+                zeros[l[0][0]][i] += 1
+                if zeros[l[0][0]][i] == 2:
+                    total += 1
 
-    if l[0][1] == l[1][1]:
-      for i in range(min(l[0][0], l[1][0]), max(l[0][0], l[1][0])+1):
-        zeros[i][l[1][1]] += 1
-        if zeros[i][l[1][1]] == 2:
-          total += 1
-  
-  print(total)
+        if l[0][1] == l[1][1]:
+            for i in range(min(l[0][0], l[1][0]), max(l[0][0], l[1][0])+1):
+                zeros[i][l[1][1]] += 1
+                if zeros[i][l[1][1]] == 2:
+                    total += 1
+
+    print(total)
 
 # Part 2
+
+
 def p2(data):
-  maxX = 0
-  maxY = 0
+    maxX = 0
+    maxY = 0
 
-  for l in data:
-    maxX = max(maxX, l[0][0])
-    maxX = max(maxX, l[1][0])
-    maxY = max(maxY, l[0][1])
-    maxY = max(maxY, l[1][1])
+    for l in data:
+        maxX = max(maxX, l[0][0])
+        maxX = max(maxX, l[1][0])
+        maxY = max(maxY, l[0][1])
+        maxY = max(maxY, l[1][1])
 
-  zeros = np.zeros((maxX+1, maxY+1))
-  total = 0
+    zeros = np.zeros((maxX+1, maxY+1))
+    total = 0
 
-  for l in data:
+    for l in data:
 
-    if l[0][0] == l[1][0]:
-      for i in range(min(l[0][1], l[1][1]), max(l[0][1], l[1][1])+1):
-        zeros[l[0][0],i] += 1
-        if zeros[l[0][0],i] == 2:
-          total += 1
+        if l[0][0] == l[1][0]:
+            for i in range(min(l[0][1], l[1][1]), max(l[0][1], l[1][1])+1):
+                zeros[l[0][0], i] += 1
+                if zeros[l[0][0], i] == 2:
+                    total += 1
 
-    elif l[0][1] == l[1][1]:
-      for i in range(min(l[0][0], l[1][0]), max(l[0][0], l[1][0])+1):
-        zeros[i, l[1][1]] += 1
-        if zeros[i, l[1][1]] == 2:
-          total += 1
-    
-    else:
-      # print(l)
-      for x,y in  zip(lin(l[0][0], l[1][0]), lin(l[0][1], l[1][1])):
-        zeros[x, y] += 1
-        if zeros[x, y] == 2:
-          total += 1
+        elif l[0][1] == l[1][1]:
+            for i in range(min(l[0][0], l[1][0]), max(l[0][0], l[1][0])+1):
+                zeros[i, l[1][1]] += 1
+                if zeros[i, l[1][1]] == 2:
+                    total += 1
 
-  # [ print(x) for x in zeros.transpose() ]
+        else:
+            # print(l)
+            for x, y in zip(lin(l[0][0], l[1][0]), lin(l[0][1], l[1][1])):
+                zeros[x, y] += 1
+                if zeros[x, y] == 2:
+                    total += 1
 
-  print(total)
+    # [ print(x) for x in zeros.transpose() ]
 
+    print(total)
 
 
 if __name__ == "__main__":
-  print("\n\nPART1:")
-  p1(data)
-  print("\n\nPART2:")
-  p2(data)
-
+    print("\n\nPART1:")
+    p1(data)
+    print("\n\nPART2:")
+    p2(data)
