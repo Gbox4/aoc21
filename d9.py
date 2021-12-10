@@ -106,12 +106,19 @@ data = """4210129998765678999876598999987654567899891099876534567899989543458910
 4345678987545678999901298767899985423457891298989109999896459876789019210145679987654236789998795435"""
 
 
-data = \
-    """2199943210
-3987894921
-9856789892
-8767896789
-9899965678"""
+# data = \
+#     """2199943210
+# 3987894921
+# 9856789892
+# 8767896789
+# 9899965678"""
+
+# data = \
+# """0999999999
+# 0990009909
+# 1990909909
+# 0990900009
+# 1000999999"""
 
 data = data.split("\n")
 data = [[int(y) for y in list(x)] for x in data]
@@ -148,7 +155,20 @@ def p1(data):
 
 
 # Part 2
-def p2old(data):
+
+def discover(x, y, seen, inp):
+    seen.append((y, x))
+    total = 1  # including current
+    for i in [(y+1, x), (y-1, x), (y, x+1), (y, x-1)]:
+        current = inp[i]
+        if i in seen or current == 1:
+            continue
+        seen.append(i)
+        total += discover(i[1], i[0], seen, inp)
+    return total
+
+
+def p2(data):
     tubes = np.array(data)
 
     up = tubes.copy()
@@ -181,6 +201,62 @@ def p2old(data):
     walls = walls.astype(int)
     walls = np.pad(walls, 1, pad_with)
 
+    sums = walls.copy()
+    sums[1:, :] += walls[:-1, :]
+    sums[:-1, :] += walls[1:, :]
+    sums[:, 1:] += walls[:, :-1]
+    sums[:, :-1] += walls[:, 1:]
+
+    nowalls = sums == 0
+    nowalls = nowalls.astype(int)
+    nowalls *= 2
+    print(walls)
+
+    basinsizes = []
+    for b in lowpoints:
+        basinsizes.append(discover(b[1], b[0], [], walls))
+
+    print(basinsizes)
+    total = 1
+    for i in sorted(basinsizes, reverse=True)[:3]:
+        total *= i
+    print(total)
+
+
+def p2o(data):
+    tubes = np.array(data)
+
+    up = tubes.copy()
+    up[1:, :] = tubes[1:, :] < tubes[:-1, :]
+    up[0, :] = 1
+
+    down = tubes.copy()
+    down[:-1, :] = tubes[:-1, :] < tubes[1:, :]
+    down[-1, :] = 1
+
+    tubes = np.array(data)
+    left = tubes.copy()
+    left[:, 1:] = tubes[:, 1:] < tubes[:, :-1]
+    left[:, 0] = 1
+
+    right = tubes.copy()
+    right[:, :-1] = tubes[:, :-1] < tubes[:, 1:]
+    right[:, -1] = 1
+
+    lowpoints = list(zip(*np.nonzero(up*down*left*right)))
+
+    lowpoints = [(x[0]+1, x[1]+1) for x in lowpoints]
+
+    def pad_with(vector, pad_width, iaxis, kwargs):
+        pad_value = kwargs.get('padder', 1)
+        vector[:pad_width[0]] = pad_value
+        vector[-pad_width[1]:] = pad_value
+
+    walls = tubes == 9
+    walls = walls.astype(int)
+    walls = np.pad(walls, 1, pad_with)
+
+    print(walls)
     basinsizes = []
 
     # 0:north  1:east  2:south  3:west
@@ -303,6 +379,7 @@ def p2old(data):
     for i in sorted(basinsizes, reverse=True)[:3]:
         total *= i
 
+    print(walls)
     print(basinsizes)
     print(total)
 

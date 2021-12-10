@@ -3,6 +3,9 @@
 # Advent of Code day 8
 
 
+from numpy import number
+
+
 data = """cbdfag bf ebgda cfead aecbgd dfbea dbafecg fab bgdaef fgeb | bf defbag efadgbc bfgeda
 defgac bfcedag fcaeb gefcb acdfe bfad bea ba acbedg cdebfa | abcfed adfb fdba ab
 aegbdc cdgbaf gb bacegdf cbeg bdgae dgb dagfe dcfbae cbdae | gcfdba cbeg becg bdg
@@ -204,7 +207,7 @@ fdacb facegd dgba db gfcda gcbfed bdc ecfab bafgdce fcdbga | cadfge db bgecdaf d
 defcg fbeag edgaf agd fbgace bafd da cfgedab agdfbe agcedb | fgeda da eafbgd abfd
 fcde ebafcgd gcdae ecg dbcfag adgcf ec aegbd gacefd fgceab | gcaed gec cfegba fdaegc"""
 
-data = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"
+# data = "acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf"
 
 data = data.split("\n")
 data = [x.split(" | ") for x in data]
@@ -250,6 +253,7 @@ def p2(data):
             total *= i
         return total
 
+    total = 0
     for i in data:
         inp = i[0].split(" ")
         out = i[1].split(" ")
@@ -276,27 +280,87 @@ def p2(data):
         #           2 = maps[2][1], 5 = maps[5][0]
         #           4 = maps[4][0], 6 = maps[6][1]
 
-        invalid = []
+        valid = ["AAA","AAB","ABA","ABB","BAA","BAB","BBA","BBB"]
 
-        a = "A"
-        b = "B"
-        c = "C"
+        temp = [
+            maps[0][0],
+            maps[1][0],
+            maps[2][0],
+            maps[3][1],
+            maps[4][0],
+            maps[5][1],
+            maps[6][1],
+        ]
 
-        while product([len(x) for x in maps]):
-            temp = [
-                maps[0][0],
-                maps[1][0],
-                maps[2][0],
-                maps[3][1] if 3 in unresolved else maps[3][0],
-                maps[4][0],
-                maps[5][1] if 5 in unresolved else maps[5][0],
-                maps[6][1] if 6 in unresolved else maps[6][0],
-            ]
+        while len(valid) > 1:
+            remove = []
 
-            for i in inp:
-                if not set([temp.index(x) for x in i]) in numSeg:
-                    maps[]
-                    break
+            for combo in valid:
+
+                # Setup temp
+                if combo[0] == "A":
+                    temp[1] = maps[1][0]
+                    temp[3] = maps[3][1]
+                else:
+                    temp[1] = maps[1][1]
+                    temp[3] = maps[3][0]
+
+                if combo[1] == "A":
+                    temp[2] = maps[2][0]
+                    temp[5] = maps[5][1]
+                else:
+                    temp[2] = maps[2][1]
+                    temp[5] = maps[5][0]
+
+                if combo[2] == "A":
+                    temp[4] = maps[4][0]
+                    temp[6] = maps[6][1]
+                else:
+                    temp[4] = maps[4][1]
+                    temp[6] = maps[6][0]
+
+
+                for i in inp:
+                    numCombo = set([temp.index(x) for x in i])
+                    if not numCombo in numSeg:
+                        remove.append(combo)
+                        break
+            
+            for r in set(remove):
+                valid.remove(r)
+        
+        combo = valid[0]
+        # Setup temp
+        if combo[0] == "A":
+            temp[1] = maps[1][0]
+            temp[3] = maps[3][1]
+        else:
+            temp[1] = maps[1][1]
+            temp[3] = maps[3][0]
+
+        if combo[1] == "A":
+            temp[2] = maps[2][0]
+            temp[5] = maps[5][1]
+        else:
+            temp[2] = maps[2][1]
+            temp[5] = maps[5][0]
+
+        if combo[2] == "A":
+            temp[4] = maps[4][0]
+            temp[6] = maps[6][1]
+        else:
+            temp[4] = maps[4][1]
+            temp[6] = maps[6][0]
+        
+
+        digits = ""
+        for i in out:
+            numCombo = set([temp.index(x) for x in i])
+            digits += str(numSeg.index(numCombo))
+        
+        total += int(digits)
+    
+    print(total)
 
 
 if __name__ == "__main__":
