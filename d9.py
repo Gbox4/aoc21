@@ -1,5 +1,5 @@
 # Gabe Banks
-# 12/7/21
+# 12/8/21
 # Advent of Code day 8
 
 from numpy.core.numeric import zeros_like
